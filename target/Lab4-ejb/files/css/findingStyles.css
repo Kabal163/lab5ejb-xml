@@ -1,0 +1,28 @@
+body {
+    background: url("../img/d5.jpg");
+}
+
+.show-item {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 70px;
+    opacity: 0.7;
+    border-radius: 15px;
+    border: 1px solid #2aabd2;
+}
+
+table {
+    border-color: #2aabd2;
+}
+
+.alert {
+    margin-top: 15px;
+}
+
+#personage_equipment {
+    cursor: pointer;
+}
+
+#personage_weapon {
+    cursor: pointer;
+}

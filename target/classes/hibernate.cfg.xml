@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/WoW</property>
+        <property name="hibernate.connection.username">web</property>
+        <property name="hibernate.connection.password">SiliconValley17</property>
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+        <property name="hibernate.max_fetch_depth">2</property>
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgresPlusDialect</property>
+        
+        <!-- Print executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create all database on startup -->
+        <property name="hibernate.hbm2ddl.auto">validate</property>
+        <property name="jta.UserTransaction">java:comp/UserTransaction</property>
+
+        <!-- Mapping -->
+        <mapping class="ru.wow.models.Weapon"/>
+        <mapping class="ru.wow.models.Personage"/>
+        <mapping class="ru.wow.models.Equipment"/>
+    </session-factory>
+
+</hibernate-configuration>

@@ -1,0 +1,15 @@
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\PersonageHandler.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\impls\PersonageBean.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\dao\interfaces\CrudDao.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\servlets\PersonageServlet.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\WeaponHandler.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\models\Weapon.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\models\Equipment.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\EquipmentHandler.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\util\HibernateUtil.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\dao\interfaces\impls\CrudDatabaseDao.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\servlets\WeaponServlet.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\impls\EquipmentBean.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\servlets\EquipmentServlet.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\impls\WeaponBean.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\models\Personage.java
