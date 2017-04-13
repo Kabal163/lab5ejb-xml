@@ -85,7 +85,9 @@ public class WeaponBean implements WeaponHandler{
     }
 
     private boolean validateXml(String weaponXml){
+        System.out.println(weaponXml);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         try (InputStream is = classloader.getResourceAsStream("weapon.xsd");) {
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -123,7 +125,8 @@ public class WeaponBean implements WeaponHandler{
         StringReader reader = new StringReader(weaponXml);
         StringWriter writer = new StringWriter();
         TransformerFactory factory = TransformerFactory.newInstance();
-        try (InputStream is = getClass().getResourceAsStream("itemsStylesheet.xsl")){
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        try (InputStream is = classloader.getResourceAsStream("itemsStylesheet.xsl")){
             Source xslt = new StreamSource(is);
             Source xml = new StreamSource(reader);
             Result html = new StreamResult(writer);
