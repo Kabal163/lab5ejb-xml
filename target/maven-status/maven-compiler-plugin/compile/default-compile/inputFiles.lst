@@ -1,10 +1,12 @@
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\PersonageHandler.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\impls\PersonageBean.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\util\PropertyUtil.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\dao\interfaces\CrudDao.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\servlets\PersonageServlet.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\WeaponHandler.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\models\Weapon.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\models\Equipment.java
+C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\cdiAnnotations\ServerUri.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\ejb\interfaces\EquipmentHandler.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\util\HibernateUtil.java
 C:\Users\Los Pepes\IdeaProjects\Lab4ejb\src\main\java\ru\wow\dao\interfaces\impls\CrudDatabaseDao.java

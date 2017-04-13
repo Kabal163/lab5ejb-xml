@@ -3,12 +3,14 @@ package ru.wow.ejb.interfaces.impls;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import ru.wow.cdiAnnotations.ServerUri;
 import ru.wow.dao.interfaces.impls.CrudDatabaseDao;
 import ru.wow.ejb.interfaces.WeaponHandler;
 import ru.wow.models.Personage;
 import ru.wow.models.Weapon;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -28,6 +30,9 @@ import java.util.List;
 
 @Stateless
 public class WeaponBean implements WeaponHandler{
+
+    @Inject @ServerUri
+    private String serverUri;
 
     @Override
     public boolean createWeapon(Weapon weapon) {
@@ -85,7 +90,6 @@ public class WeaponBean implements WeaponHandler{
     }
 
     private boolean validateXml(String weaponXml){
-        System.out.println(weaponXml);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -97,7 +101,6 @@ public class WeaponBean implements WeaponHandler{
             Schema schema = schemaFactory.newSchema(constraint);
             Validator validator = schema.newValidator();
             validator.validate(new DOMSource(document));
-            System.out.println("Document validated fine");
         } catch (ParserConfigurationException | IOException | SAXException e) {
             System.out.println("Validation error: " + e);
             e.printStackTrace();
@@ -131,9 +134,10 @@ public class WeaponBean implements WeaponHandler{
             Source xml = new StreamSource(reader);
             Result html = new StreamResult(writer);
             Transformer transformer = factory.newTransformer(xslt);
+            System.out.println(serverUri);
+            transformer.setParameter("serverUri", serverUri);
             transformer.transform(xml, html);
             resultHtml = writer.toString();
-            System.out.println(resultHtml);
         } catch (TransformerException | IOException e) {
             System.out.println("Exception in xml transforming: " + e);
         }

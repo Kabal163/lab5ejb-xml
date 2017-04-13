@@ -1,8 +1,10 @@
 ru\wow\ejb\interfaces\PersonageHandler.class
+ru\wow\util\PropertyUtil.class
 ru\wow\models\Weapon.class
 ru\wow\ejb\interfaces\impls\EquipmentBean.class
 ru\wow\ejb\interfaces\impls\WeaponBean.class
 ru\wow\util\HibernateUtil.class
+ru\wow\cdiAnnotations\ServerUri.class
 ru\wow\dao\interfaces\impls\CrudDatabaseDao.class
 ru\wow\dao\interfaces\CrudDao.class
 ru\wow\ejb\interfaces\WeaponHandler.class

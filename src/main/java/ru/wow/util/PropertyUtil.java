@@ -6,9 +6,10 @@ import ru.wow.cdiAnnotations.ServerUri;
 import javax.enterprise.inject.Produces;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Properties;
 
-public class PropertyUtil {
+public class PropertyUtil implements Serializable{
 
     @Produces @ServerUri
     private String getServerUri(){
