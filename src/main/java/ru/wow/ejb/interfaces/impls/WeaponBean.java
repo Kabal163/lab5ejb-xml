@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import ru.wow.cdiAnnotations.ServerUri;
+import ru.wow.cdiComponents.XmlViewer;
 import ru.wow.dao.interfaces.impls.CrudDatabaseDao;
 import ru.wow.ejb.interfaces.WeaponHandler;
 import ru.wow.models.Personage;
@@ -34,6 +35,9 @@ public class WeaponBean implements WeaponHandler{
     @Inject @ServerUri
     private String serverUri;
 
+    @Inject
+    private XmlViewer xmlViewer;
+
     @Override
     public boolean createWeapon(Weapon weapon) {
         countPrice(weapon);
@@ -59,6 +63,7 @@ public class WeaponBean implements WeaponHandler{
     @Override
     public String getWeaponAsXmlById(long id) {
         Weapon weapon = findWeapon(id);
+        System.out.println(weapon.getClass().getName());
         String weaponXml = weaponToXml(weapon);
         if(validateXml(weaponXml)){
             return transformXmlToHtml(weaponXml);
@@ -89,6 +94,20 @@ public class WeaponBean implements WeaponHandler{
         weapon.setPrice(power * 3 + parry * 2);
     }
 
+    private String weaponToXml(Weapon weapon){
+        String weaponXml = null;
+        StringWriter writer = new StringWriter();
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Weapon.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.marshal(weapon, writer);
+            weaponXml = writer.toString();
+        } catch (JAXBException e) {
+            System.out.println("Weapon marshalling exception");
+        }
+        return weaponXml;
+    }
+
     private boolean validateXml(String weaponXml){
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -109,20 +128,6 @@ public class WeaponBean implements WeaponHandler{
         return true;
     }
 
-    private String weaponToXml(Weapon weapon){
-        String weaponXml = null;
-        StringWriter writer = new StringWriter();
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Weapon.class);
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.marshal(weapon, writer);
-            weaponXml = writer.toString();
-        } catch (JAXBException e) {
-            System.out.println("Weapon marshalling exception");
-        }
-        return weaponXml;
-    }
-
     private String transformXmlToHtml(String weaponXml){
         String resultHtml = null;
         StringReader reader = new StringReader(weaponXml);
@@ -134,7 +139,6 @@ public class WeaponBean implements WeaponHandler{
             Source xml = new StreamSource(reader);
             Result html = new StreamResult(writer);
             Transformer transformer = factory.newTransformer(xslt);
-            System.out.println(serverUri);
             transformer.setParameter("serverUri", serverUri);
             transformer.transform(xml, html);
             resultHtml = writer.toString();

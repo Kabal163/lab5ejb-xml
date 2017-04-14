@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Lab4ejb:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="Lab4-ejb.war">
+      <element id="artifact" artifact-name="Lab4ejb:war exploded" />
+    </root>
+  </artifact>
+</component>
