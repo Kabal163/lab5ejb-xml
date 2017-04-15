@@ -20,5 +20,7 @@ public interface EquipmentHandler {
 
     Equipment findEquipment(long id);
 
+    String getEquipmentAsHtmlById(long id);
+
     List<Equipment> findAllEquipment();
 }

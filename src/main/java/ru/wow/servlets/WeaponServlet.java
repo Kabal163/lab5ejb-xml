@@ -48,21 +48,26 @@ public class WeaponServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=windows-1251");
         String searchFor = request.getHeader("amount");
+        String responseType = request.getHeader("responseType");
         PrintWriter writer = response.getWriter();
+        int weaponId = Integer.parseInt(request.getParameter("weaponId"));
         switch (searchFor){
             case "single":
-                int weaponId = Integer.parseInt(request.getParameter("weaponId"));
-                //Weapon weapon = weaponBean.findWeapon(weaponId);
-                String weaponXml = weaponBean.getWeaponAsXmlById(weaponId);
-                //request.setAttribute("weapon", weapon);
-                //request.getRequestDispatcher("/files/components/weaponTable.jsp").forward(request, response);
-                writer.println(weaponXml);
+                if(responseType.equals("xml")){
+                    String weaponXml = weaponBean.getWeaponAsHtmlById(weaponId);
+                    if(weaponXml != null) writer.println(weaponXml);
+                    else sendResultStatus(false, response);
+                } else {
+                    Weapon weapon = weaponBean.findWeapon(weaponId);
+                    request.setAttribute("weapon", weapon);
+                    request.getRequestDispatcher("/files/components/weaponTable.jsp").forward(request, response);
+                    writer.println(weapon);
+                }
                 break;
             case "all":
                 List<Weapon> allWeapon = weaponBean.findAllWeapon();
                 break;
         }
-
     }
 
     private Weapon getWeapon(HttpServletRequest request) throws UnsupportedEncodingException {

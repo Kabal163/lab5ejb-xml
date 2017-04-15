@@ -3,11 +3,14 @@ package ru.wow.models;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "personage")
 @DynamicUpdate
-public class Personage {
+@XmlRootElement
+public class Personage extends Model {
 
     public Personage() {}
 

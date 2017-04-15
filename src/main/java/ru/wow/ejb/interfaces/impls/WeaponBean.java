@@ -1,10 +1,6 @@
 package ru.wow.ejb.interfaces.impls;
 
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import ru.wow.cdiAnnotations.ServerUri;
-import ru.wow.cdiComponents.XmlViewer;
+import ru.wow.cdiComponents.XmlTransformer;
 import ru.wow.dao.interfaces.impls.CrudDatabaseDao;
 import ru.wow.ejb.interfaces.WeaponHandler;
 import ru.wow.models.Personage;
@@ -12,31 +8,14 @@ import ru.wow.models.Weapon;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import java.io.*;
 import java.util.List;
 
 @Stateless
 public class WeaponBean implements WeaponHandler{
 
-    @Inject @ServerUri
-    private String serverUri;
-
     @Inject
-    private XmlViewer xmlViewer;
+    private XmlTransformer transformer;
 
     @Override
     public boolean createWeapon(Weapon weapon) {
@@ -61,12 +40,11 @@ public class WeaponBean implements WeaponHandler{
     }
 
     @Override
-    public String getWeaponAsXmlById(long id) {
+    public String getWeaponAsHtmlById(long id) {
         Weapon weapon = findWeapon(id);
-        System.out.println(weapon.getClass().getName());
-        String weaponXml = weaponToXml(weapon);
-        if(validateXml(weaponXml)){
-            return transformXmlToHtml(weaponXml);
+        String weaponXml = transformer.itemToXml(weapon);
+        if(transformer.validateXml(weaponXml, "weapon.xsd")){
+            return transformer.transformXmlToHtml(weaponXml);
         } else {
             return null;
         }
@@ -75,11 +53,6 @@ public class WeaponBean implements WeaponHandler{
     @Override
     public List<Weapon> findAllWeapon() {
         return new CrudDatabaseDao<Weapon>(Weapon.class).findAllItems();
-    }
-
-    @Override
-    public List<Personage> getAllPersWithSuchWeapon(long weaponId) {
-        return null;
     }
 
     @Override
@@ -94,57 +67,4 @@ public class WeaponBean implements WeaponHandler{
         weapon.setPrice(power * 3 + parry * 2);
     }
 
-    private String weaponToXml(Weapon weapon){
-        String weaponXml = null;
-        StringWriter writer = new StringWriter();
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Weapon.class);
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.marshal(weapon, writer);
-            weaponXml = writer.toString();
-        } catch (JAXBException e) {
-            System.out.println("Weapon marshalling exception");
-        }
-        return weaponXml;
-    }
-
-    private boolean validateXml(String weaponXml){
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        try (InputStream is = classloader.getResourceAsStream("weapon.xsd");) {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new InputSource(new ByteArrayInputStream(weaponXml.getBytes("UTF-8"))));
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Source constraint = new StreamSource(is);
-            Schema schema = schemaFactory.newSchema(constraint);
-            Validator validator = schema.newValidator();
-            validator.validate(new DOMSource(document));
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            System.out.println("Validation error: " + e);
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    private String transformXmlToHtml(String weaponXml){
-        String resultHtml = null;
-        StringReader reader = new StringReader(weaponXml);
-        StringWriter writer = new StringWriter();
-        TransformerFactory factory = TransformerFactory.newInstance();
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        try (InputStream is = classloader.getResourceAsStream("itemsStylesheet.xsl")){
-            Source xslt = new StreamSource(is);
-            Source xml = new StreamSource(reader);
-            Result html = new StreamResult(writer);
-            Transformer transformer = factory.newTransformer(xslt);
-            transformer.setParameter("serverUri", serverUri);
-            transformer.transform(xml, html);
-            resultHtml = writer.toString();
-        } catch (TransformerException | IOException e) {
-            System.out.println("Exception in xml transforming: " + e);
-        }
-        return resultHtml;
-    }
 }

@@ -18,5 +18,7 @@ public interface PersonageHandler {
 
     Personage findPersonage(long id);
 
+    String getPersonageAsXmlById(long id);
+
     List<Personage> findAllPersonage();
 }

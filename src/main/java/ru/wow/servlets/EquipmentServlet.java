@@ -52,12 +52,20 @@ public class EquipmentServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=windows-1251");
         String searchFor = request.getHeader("amount");
+        String responseType = request.getHeader("responseType");
+        PrintWriter writer = response.getWriter();
+        int equipmentId = Integer.parseInt(request.getParameter("equipmentId"));
         switch (searchFor){
             case "single":
-                int equipmentId = Integer.parseInt(request.getParameter("equipmentId"));
-                Equipment equipment = equipmentBean.findEquipment(equipmentId);
-                request.setAttribute("equipment", equipment);
-                request.getRequestDispatcher("/files/components/equipmentTable.jsp").forward(request, response);
+                if(responseType.equals("xml")){
+                    String equipmentXml = equipmentBean.getEquipmentAsHtmlById(equipmentId);
+                    if(equipmentXml != null) writer.println(equipmentXml);
+                    else sendResultStatus(false, response);
+                } else {
+                    Equipment equipment = equipmentBean.findEquipment(equipmentId);
+                    request.setAttribute("equipment", equipment);
+                    request.getRequestDispatcher("/files/components/equipmentTable.jsp").forward(request, response);
+                }
                 break;
             case "all":
                 List<Equipment> allEquipment = equipmentBean.findAllEquipment();

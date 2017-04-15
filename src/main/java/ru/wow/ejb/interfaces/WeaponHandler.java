@@ -19,9 +19,7 @@ public interface WeaponHandler {
 
     Weapon findWeapon(long id);
 
-    String getWeaponAsXmlById(long id);
+    String getWeaponAsHtmlById(long id);
 
     List<Weapon> findAllWeapon();
-
-    List<Personage> getAllPersWithSuchWeapon(long weaponId);
 }

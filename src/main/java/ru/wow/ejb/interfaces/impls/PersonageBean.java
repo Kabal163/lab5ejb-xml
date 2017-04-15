@@ -1,16 +1,22 @@
 package ru.wow.ejb.interfaces.impls;
 
+import ru.wow.cdiComponents.XmlTransformer;
 import ru.wow.dao.interfaces.impls.CrudDatabaseDao;
 import ru.wow.ejb.interfaces.PersonageHandler;
 import ru.wow.models.Personage;
 import ru.wow.models.Weapon;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 
 @Stateless
 public class PersonageBean implements PersonageHandler{
+
+    @Inject
+    private XmlTransformer transformer;
+
     @Override
     public boolean createPersonage(Personage personage) {
         countPesonageStatistics(personage);
@@ -33,6 +39,17 @@ public class PersonageBean implements PersonageHandler{
         Personage personage = new CrudDatabaseDao<Personage>(Personage.class).getById(id);
         countPesonageStatistics(personage);
         return personage;
+    }
+
+    @Override
+    public String getPersonageAsXmlById(long id) {
+        Personage personage = findPersonage(id);
+        String personageXml = transformer.itemToXml(personage);
+        if(transformer.validateXml(personageXml, "personage.xsd")){
+            return transformer.transformXmlToHtml(personageXml);
+        } else {
+            return null;
+        }
     }
 
     @Override

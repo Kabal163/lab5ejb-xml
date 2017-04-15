@@ -13,9 +13,8 @@ import java.util.List;
 @Entity
 @Table(name="weapon")
 @DynamicUpdate
-@EntityListeners(WeaponBean.class)
 @XmlRootElement
-public class Weapon implements Serializable{
+public class Weapon extends Model {
 
     public Weapon() {}
 
