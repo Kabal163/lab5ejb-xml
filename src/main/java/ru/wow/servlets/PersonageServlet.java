@@ -62,13 +62,16 @@ public class PersonageServlet extends HttpServlet {
         response.setContentType("text/html;charset=windows-1251");
         String searchFor = request.getHeader("amount");
         String responseType = request.getHeader("responseType");
+        long personageId = Long.parseLong(request.getParameter("personageId"));
         PrintWriter writer = response.getWriter();
         switch (searchFor){
             case "single":
                 if(responseType.equals("xml")){
-
+                    String personageXml = personageBean.getPersonageAsXmlById(personageId);
+                    if(personageXml != null) writer.println(personageXml);
+                    else sendResultStatus(false, response);
+                    break;
                 } else {
-                    int personageId = Integer.parseInt(request.getParameter("personageId"));
                     Personage personage = personageBean.findPersonage(personageId);
                     request.setAttribute("personage", personage);
                     request.getRequestDispatcher("/files/components/personageTable.jsp").forward(request, response);

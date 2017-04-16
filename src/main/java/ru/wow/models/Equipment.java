@@ -39,9 +39,6 @@ public class Equipment extends Model {
     @Column(name = "equipment_price")
     private int price;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "equipment")
-    private List<Personage> equipmentOwners;
-
     public void setId(long id) {
         this.id = id;
     }

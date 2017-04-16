@@ -73,7 +73,7 @@
                                 </c:forEach>
                             </select>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonage()">Найти персонажа</button>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonageAsXml()">Найти персонажа</button>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonageAsXml()">Найти персонажа(xml)</button>
                         </div>
                     </c:when>
                 </c:choose>

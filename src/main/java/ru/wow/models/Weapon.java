@@ -38,9 +38,6 @@ public class Weapon extends Model {
     @Column(name = "weapon_price")
     private int price;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "weapon")
-    private List<Personage> weaponOwners;
-
     public void setId(long id) {
         this.id = id;
     }
@@ -65,10 +62,6 @@ public class Weapon extends Model {
         this.price = price;
     }
 
-    public void setWeaponOwners(List<Personage> weaponOwners) {
-        this.weaponOwners = weaponOwners;
-    }
-
     public long getId() {
         return id;
     }
@@ -91,10 +84,6 @@ public class Weapon extends Model {
 
     public int getPrice() {
         return price;
-    }
-
-    public List<Personage> getWeaponOwners() {
-        return weaponOwners;
     }
 
 }

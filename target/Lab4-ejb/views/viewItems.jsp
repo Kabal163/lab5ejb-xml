@@ -49,6 +49,7 @@
                                 </c:forEach>
                             </select>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipment()">Найти экипировку</button>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipmentAsXml()">Найти экипировку</button>
                         </div>
                     </c:when>
                     <c:when test="${searchObject.equals(\"weapon\")}">
@@ -60,6 +61,7 @@
                                 </c:forEach>
                             </select>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findWeapon()">Найти оружие</button>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findWeaponAsXml()">Найти оружие(xml)</button>
                         </div>
                     </c:when>
                     <c:when test="${searchObject.equals(\"personage\")}">
@@ -71,6 +73,7 @@
                                 </c:forEach>
                             </select>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonage()">Найти персонажа</button>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonageAsXml()">Найти персонажа(xml)</button>
                         </div>
                     </c:when>
                 </c:choose>

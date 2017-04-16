@@ -6,7 +6,7 @@ function findPersonage(id) {
     $.ajax({
         url: "/Lab4-ejb/personageHandling",
         type: "get",
-        headers: {"amount":"single"},
+        headers: {"amount":"single", "responseType":"jspComponent"},
         data: {"personageId":personageId},
         dataType: "html",
         success: function (response) {
@@ -23,7 +23,7 @@ function findWeapon(id) {
     $.ajax({
         url: "/Lab4-ejb/weaponHandling",
         type: "get",
-        headers: {"amount":"single"},
+        headers: {"amount":"single", "responseType":"jspComponent"},
         data: {"weaponId":weaponId},
         dataType: "html",
         success: function (response) {
@@ -40,7 +40,7 @@ function findEquipment(id) {
     $.ajax({
         url: "/Lab4-ejb/equipmentHandling",
         type: "get",
-        headers: {"amount":"single"},
+        headers: {"amount":"single", "responseType":"jspComponent"},
         data: {"equipmentId":equipmentId},
         dataType: "html",
         success: function (response) {

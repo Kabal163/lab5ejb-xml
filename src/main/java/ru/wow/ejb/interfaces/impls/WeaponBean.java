@@ -42,6 +42,7 @@ public class WeaponBean implements WeaponHandler{
     @Override
     public String getWeaponAsHtmlById(long id) {
         Weapon weapon = findWeapon(id);
+        System.out.println("Weapon name: " + weapon.getName());
         String weaponXml = transformer.itemToXml(weapon);
         if(transformer.validateXml(weaponXml, "weapon.xsd")){
             return transformer.transformXmlToHtml(weaponXml);

@@ -1,10 +1,13 @@
 package ru.wow.cdiComponents;
 
 
+import org.hibernate.proxy.HibernateProxy;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import ru.wow.cdiAnnotations.ServerUri;
 import ru.wow.models.Model;
+import ru.wow.models.Weapon;
 
 import javax.inject.Inject;
 import javax.xml.XMLConstants;
@@ -25,19 +28,20 @@ import java.io.*;
 
 public class XmlTransformer {
 
-    @Inject
+    @Inject @ServerUri
     private String serverUri;
 
     public String itemToXml(Model item){
         String itemXml = null;
         StringWriter writer = new StringWriter();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(item.getClass());
+            JAXBContext jaxbContext = JAXBContext.newInstance(getUnproxyModel(item).getClass());
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.marshal(item, writer);
             itemXml = writer.toString();
         } catch (JAXBException e) {
-            System.out.println("Weapon marshalling exception");
+            System.out.println("Marshalling exception");
+            e.printStackTrace();
         }
         return itemXml;
     }
@@ -80,5 +84,12 @@ public class XmlTransformer {
             System.out.println("Exception in xml transforming: " + e);
         }
         return resultHtml;
+    }
+
+    private Object getUnproxyModel(Object model) {
+        if (HibernateProxy.class.isAssignableFrom(model.getClass())) {
+            return ((HibernateProxy)model).getHibernateLazyInitializer().getImplementation();
+        }
+        return model;
     }
 }

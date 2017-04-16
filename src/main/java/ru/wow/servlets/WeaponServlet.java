@@ -61,7 +61,6 @@ public class WeaponServlet extends HttpServlet {
                     Weapon weapon = weaponBean.findWeapon(weaponId);
                     request.setAttribute("weapon", weapon);
                     request.getRequestDispatcher("/files/components/weaponTable.jsp").forward(request, response);
-                    writer.println(weapon);
                 }
                 break;
             case "all":
