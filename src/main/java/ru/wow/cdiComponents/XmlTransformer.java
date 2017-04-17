@@ -43,6 +43,7 @@ public class XmlTransformer {
             System.out.println("Marshalling exception");
             e.printStackTrace();
         }
+        System.out.println(itemXml);
         return itemXml;
     }
 

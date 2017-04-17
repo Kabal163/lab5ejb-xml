@@ -68,6 +68,7 @@ function findWeaponAsXml(id) {
 
 <!-- Equipment search as XML -->
 function findEquipmentAsXml(id) {
+    console.log("id is: " + id);
     var equipmentId;
     if(arguments.length > 0) equipmentId = id;
     else equipmentId = $('#select-equipment :selected').val();

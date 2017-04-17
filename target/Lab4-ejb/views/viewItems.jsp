@@ -49,7 +49,7 @@
                                 </c:forEach>
                             </select>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipment()">Найти экипировку</button>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipmentAsXml()">Найти экипировку</button>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipmentAsXml()">Найти экипировку(xml)</button>
                         </div>
                     </c:when>
                     <c:when test="${searchObject.equals(\"weapon\")}">

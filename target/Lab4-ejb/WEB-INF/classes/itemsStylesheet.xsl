@@ -4,8 +4,6 @@
     <xsl:param name="serverUri" />
 
     <xsl:template match="/weapon">
-        <xsl:variable name="id" select="id"/>
-
         <div class="container text-center show-item">
             <div class="view-pane">
                 <table class="table table-inverse">
@@ -55,6 +53,7 @@
             </div>
         </div>
     </xsl:template>
+
     <xsl:template match="/equipment">
         <div class="container text-center show-item">
             <div class="view-pane">
@@ -110,6 +109,7 @@
             </div>
         </div>
     </xsl:template>
+
     <xsl:template match="/personage">
         <div class="container text-center show-item">
             <div class="view-pane">
@@ -145,15 +145,15 @@
                     </tr>
                     <tr>
                         <td>Экипировка</td>
-                        <td id="personage_equipment" onclick="findEquipmentAsXml({personage.equipment.id})">{personage.equipment.name}</td>
+                        <td id="personage_equipment" onclick="findEquipmentAsXml({equipment/id})"><xsl:value-of select="equipment/name"/></td>
                     </tr>
                     <tr>
                         <td>Оружие</td>
-                        <td id="personage_weapon" onclick="findWeaponAsXml({personage.weapon.id})">{personage.weapon.name}</td>
+                        <td id="personage_weapon" onclick="findWeaponAsXml({weapon/id})"><xsl:value-of select="weapon/name"/></td>
                     </tr>
                 </table>
                 <div class="btn-group" role="group">
-                    <a href="{$serverUri}/views/editItems.jsp?searchObject=personage&amp;id={personage.id}"
+                    <a href="{$serverUri}/views/editItems.jsp?searchObject=personage&amp;id={id}"
                        class="btn btn-secondary">Изменить
                     </a>
                     <button type="button" class="btn btn-danger" onclick="showAlertCommitDeletion()">Удалить</button>
@@ -161,7 +161,7 @@
                 <div class="alert alert-warning text-center alert-commit-deletion collapse" role="alert">
                     <strong>Удалить?</strong> Вы действительно хотите удалить данного персонажа?
                     <hr/>
-                    <button type="button" class="btn btn-danger" onclick="removePersonage({personage.id})">Удалить</button>
+                    <button type="button" class="btn btn-danger" onclick="removePersonage({id})">Удалить</button>
                 </div>
             </div>
             <div class="alert alert-success text-center collapse alert-successfully-deleted" role="alert">
