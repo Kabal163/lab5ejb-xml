@@ -38,6 +38,9 @@
                     </div>
                 </li>
             </ul>
+            <form class="form-inline my-2 my-lg-0" id="form-search-by-name">
+                <input type="text" class="form-control" name="weaponName" placeholder="Поиск по названию"/>
+            </form>
             <form class="form-inline my-2 my-lg-0">
                 <c:choose>
                     <c:when test="${searchObject.equals(\"equipment\")}">
@@ -49,7 +52,7 @@
                                 </c:forEach>
                             </select>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipment()">Найти экипировку</button>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipmentAsXml()">Найти экипировку(xml)</button>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipmentAsXml()">Найти экипировку(xml)           </button>
                         </div>
                     </c:when>
                     <c:when test="${searchObject.equals(\"weapon\")}">

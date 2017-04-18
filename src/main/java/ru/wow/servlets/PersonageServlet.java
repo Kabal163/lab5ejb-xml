@@ -33,7 +33,6 @@ public class PersonageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
         String action = request.getHeader("action");
         Personage personage = null;
         boolean isSuccess = false;
@@ -60,23 +59,22 @@ public class PersonageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=windows-1251");
-        String searchFor = request.getHeader("amount");
-        String responseType = request.getHeader("responseType");
+        String searchFor = request.getHeader("searchFor");
         long personageId = Long.parseLong(request.getParameter("personageId"));
         PrintWriter writer = response.getWriter();
         switch (searchFor){
             case "single":
-                if(responseType.equals("xml")){
-                    String personageXml = personageBean.getPersonageAsXmlById(personageId);
-                    if(personageXml != null) writer.println(personageXml);
-                    else sendResultStatus(false, response);
-                    break;
-                } else {
-                    Personage personage = personageBean.findPersonage(personageId);
-                    request.setAttribute("personage", personage);
-                    request.getRequestDispatcher("/files/components/personageTable.jsp").forward(request, response);
-                }
+                Personage personage = personageBean.findPersonage(personageId);
+                request.setAttribute("personage", personage);
+                request.getRequestDispatcher("/files/components/personageTable.jsp").forward(request, response);
                 break;
+            case "singleXml":
+                String personageXml = personageBean.getPersonageAsXmlById(personageId);
+                if(personageXml != null) writer.println(personageXml);
+                else sendResultStatus(false, response);
+                break;
+            case "byName":
+
             case "all":
                 break;
         }
@@ -98,6 +96,7 @@ public class PersonageServlet extends HttpServlet {
     }
 
     private void sendResultStatus(boolean isSuccess, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json;charset=utf-8");
         PrintWriter writer = response.getWriter();
         if (isSuccess) writer.println("{\"status\":\"success\"}");
         else writer.println("{\"status\":\"fail\"}");

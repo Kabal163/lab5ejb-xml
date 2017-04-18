@@ -5,6 +5,7 @@ import ru.wow.models.Personage;
 import ru.wow.models.Weapon;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public interface CrudDao<T> {
@@ -18,6 +19,8 @@ public interface CrudDao<T> {
     boolean updateItem(T item);
 
     T getById(long id);
+
+    Collection<T> getByName(String name);
 
     List<T> findAllItems();
 }

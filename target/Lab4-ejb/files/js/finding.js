@@ -6,7 +6,7 @@ function findPersonage(id) {
     $.ajax({
         url: "/Lab4-ejb/personageHandling",
         type: "get",
-        headers: {"amount":"single", "responseType":"jspComponent"},
+        headers: {"searchFor":"single"},
         data: {"personageId":personageId},
         dataType: "html",
         success: function (response) {
@@ -23,7 +23,7 @@ function findWeapon(id) {
     $.ajax({
         url: "/Lab4-ejb/weaponHandling",
         type: "get",
-        headers: {"amount":"single", "responseType":"jspComponent"},
+        headers: {"searchFor":"single"},
         data: {"weaponId":weaponId},
         dataType: "html",
         success: function (response) {
@@ -40,7 +40,7 @@ function findEquipment(id) {
     $.ajax({
         url: "/Lab4-ejb/equipmentHandling",
         type: "get",
-        headers: {"amount":"single", "responseType":"jspComponent"},
+        headers: {"searchFor":"single"},
         data: {"equipmentId":equipmentId},
         dataType: "html",
         success: function (response) {
@@ -57,7 +57,7 @@ function findWeaponAsXml(id) {
     $.ajax({
         url: "/Lab4-ejb/weaponHandling",
         type: "get",
-        headers: {"amount":"single", "responseType":"xml"},
+        headers: {"searchFor":"singleXml"},
         data: {"weaponId": weaponId},
         dataType: "html",
         success: function (response) {
@@ -75,7 +75,7 @@ function findEquipmentAsXml(id) {
     $.ajax({
         url: "/Lab4-ejb/equipmentHandling",
         type: "get",
-        headers: {"amount": "single", "responseType":"xml"},
+        headers: {"searchFor":"singleXml"},
         data: {"equipmentId":equipmentId},
         dataType: "html",
         success: function (response) {
@@ -92,12 +92,34 @@ function findPersonageAsXml(id) {
     $.ajax({
         url: "/Lab4-ejb/personageHandling",
         type: "get",
-        headers: {"amount": "single", "responseType":"xml"},
+        headers: {"searchFor":"singleXml"},
         data: {"personageId":personageId},
         dataType: "html",
         success: function (response) {
             $('.view-holder').html(response);
         }
+    });
+}
+
+
+<!-- Weapon search by name -->
+
+$(document).ready(setFuncOnSearchByName);
+
+function setFuncOnSearchByName() {
+    $('#form-search-by-name').submit( function (event) {
+        var weaponName = $('#form-search-by-name').serialize();
+        $.ajax({
+            url: "/Lab4-ejb/weaponHandling",
+            type: "get",
+            headers: {"searchFor":"byName"},
+            data: weaponName,
+            dataType: "html",
+            success: function (response) {
+                $('.view-holder').html(response);
+            }
+        });
+        event.preventDefault();
     });
 }
 

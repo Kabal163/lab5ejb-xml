@@ -12,8 +12,10 @@ import ru.wow.models.Weapon;
 import javax.inject.Inject;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,13 +27,14 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.*;
+import java.util.Collection;
 
 public class XmlTransformer {
 
     @Inject @ServerUri
     private String serverUri;
 
-    public String itemToXml(Model item){
+    public String itemToXml(Object item){
         String itemXml = null;
         StringWriter writer = new StringWriter();
         try {
@@ -43,8 +46,27 @@ public class XmlTransformer {
             System.out.println("Marshalling exception");
             e.printStackTrace();
         }
-        System.out.println(itemXml);
         return itemXml;
+    }
+
+    public <T> String collectionToXml(Collection<T> items, String qName, Class<T[]> genericType){
+        String itemsXml = null;
+        StringWriter writer = new StringWriter();
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(getUnproxyModel(items).getClass());
+            JAXBElement<T[]> root = new JAXBElement<T[]>(new QName(qName), genericType, items.toArray(genericType.newInstance()));
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.marshal(root, writer);
+            itemsXml = writer.toString();
+        } catch (JAXBException e) {
+            System.out.println("Collection marshalling exception");
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        return itemsXml;
     }
 
     public boolean validateXml(String itemXml, String schemaFileName){
@@ -87,10 +109,10 @@ public class XmlTransformer {
         return resultHtml;
     }
 
-    private Object getUnproxyModel(Object model) {
-        if (HibernateProxy.class.isAssignableFrom(model.getClass())) {
-            return ((HibernateProxy)model).getHibernateLazyInitializer().getImplementation();
+    private Object getUnproxyModel(Object item) {
+        if (HibernateProxy.class.isAssignableFrom(item.getClass())) {
+            return ((HibernateProxy)item).getHibernateLazyInitializer().getImplementation();
         }
-        return model;
+        return item;
     }
 }

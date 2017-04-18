@@ -9,6 +9,7 @@ import ru.wow.models.Weapon;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.*;
+import java.util.Collection;
 import java.util.List;
 
 @Stateless
@@ -42,13 +43,22 @@ public class WeaponBean implements WeaponHandler{
     @Override
     public String getWeaponAsHtmlById(long id) {
         Weapon weapon = findWeapon(id);
-        System.out.println("Weapon name: " + weapon.getName());
         String weaponXml = transformer.itemToXml(weapon);
         if(transformer.validateXml(weaponXml, "weapon.xsd")){
             return transformer.transformXmlToHtml(weaponXml);
         } else {
             return null;
         }
+    }
+
+    @Override
+    public String getWeaponAsHtmlByName(String name) {
+        Collection<Weapon> weapons = new CrudDatabaseDao<Weapon>(Weapon.class).getByName(name);
+        System.out.println("WEAPON CLASS: " + Weapon[].class);
+        System.out.println("WEAPON CLASS: " + Weapon.class);
+        String itemsXml = transformer.collectionToXml(weapons, "weapons", Weapon[].class);
+        System.out.println(itemsXml);
+        return null;
     }
 
     @Override

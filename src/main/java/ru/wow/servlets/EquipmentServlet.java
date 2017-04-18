@@ -25,7 +25,6 @@ public class EquipmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
-        response.setContentType("application/json;charset=utf-8");
         String action = request.getHeader("action");
         Equipment equipment = null;
         boolean isSuccess = false;
@@ -51,21 +50,22 @@ public class EquipmentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=windows-1251");
-        String searchFor = request.getHeader("amount");
-        String responseType = request.getHeader("responseType");
-        PrintWriter writer = response.getWriter();
+        String searchFor = request.getHeader("searchFor");
         int equipmentId = Integer.parseInt(request.getParameter("equipmentId"));
+        PrintWriter writer = response.getWriter();
         switch (searchFor){
             case "single":
-                if(responseType.equals("xml")){
-                    String equipmentXml = equipmentBean.getEquipmentAsHtmlById(equipmentId);
-                    if(equipmentXml != null) writer.println(equipmentXml);
-                    else sendResultStatus(false, response);
-                } else {
-                    Equipment equipment = equipmentBean.findEquipment(equipmentId);
-                    request.setAttribute("equipment", equipment);
-                    request.getRequestDispatcher("/files/components/equipmentTable.jsp").forward(request, response);
-                }
+                Equipment equipment = equipmentBean.findEquipment(equipmentId);
+                request.setAttribute("equipment", equipment);
+                request.getRequestDispatcher("/files/components/equipmentTable.jsp").forward(request, response);
+                break;
+            case "singleXml":
+                String equipmentXml = equipmentBean.getEquipmentAsHtmlById(equipmentId);
+                if(equipmentXml != null) writer.println(equipmentXml);
+                else sendResultStatus(false, response);
+                break;
+            case "byName":
+
                 break;
             case "all":
                 List<Equipment> allEquipment = equipmentBean.findAllEquipment();
@@ -89,6 +89,7 @@ public class EquipmentServlet extends HttpServlet {
     }
 
     private void sendResultStatus(boolean isSuccess, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json;charset=utf-8");
         PrintWriter writer = response.getWriter();
         if (isSuccess) writer.println("{\"status\":\"success\"}");
         else writer.println("{\"status\":\"fail\"}");

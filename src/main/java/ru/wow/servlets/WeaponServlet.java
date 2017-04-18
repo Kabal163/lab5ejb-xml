@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -21,7 +22,6 @@ public class WeaponServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
-        response.setContentType("application/json;charset=utf-8");
         String action = request.getHeader("action");
         Weapon weapon = null;
         boolean isSuccess = false;
@@ -47,26 +47,34 @@ public class WeaponServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=windows-1251");
-        String searchFor = request.getHeader("amount");
-        String responseType = request.getHeader("responseType");
+        String searchFor = request.getHeader("searchFor");
         PrintWriter writer = response.getWriter();
-        int weaponId = Integer.parseInt(request.getParameter("weaponId"));
         switch (searchFor){
             case "single":
-                if(responseType.equals("xml")){
-                    String weaponXml = weaponBean.getWeaponAsHtmlById(weaponId);
-                    if(weaponXml != null) writer.println(weaponXml);
-                    else sendResultStatus(false, response);
-                } else {
-                    Weapon weapon = weaponBean.findWeapon(weaponId);
-                    request.setAttribute("weapon", weapon);
-                    request.getRequestDispatcher("/files/components/weaponTable.jsp").forward(request, response);
-                }
+                Weapon weapon = weaponBean.findWeapon(getWeaponId(request));
+                request.setAttribute("weapon", weapon);
+                request.getRequestDispatcher("/files/components/weaponTable.jsp").forward(request, response);
+                break;
+            case "singleXml":
+                String weaponXml = weaponBean.getWeaponAsHtmlById(getWeaponId(request));
+                if(weaponXml != null) writer.println(weaponXml);
+                else sendResultStatus(false, response);
+                break;
+            case "byName":
+                String weaponsXml = weaponBean.getWeaponAsHtmlByName(getWeaponName(request));
                 break;
             case "all":
                 List<Weapon> allWeapon = weaponBean.findAllWeapon();
                 break;
         }
+    }
+
+    private int getWeaponId(HttpServletRequest request){
+        return Integer.parseInt(request.getParameter("weaponId"));
+    }
+
+    private String getWeaponName(HttpServletRequest request){
+        return request.getParameter("weaponName");
     }
 
     private Weapon getWeapon(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -84,6 +92,7 @@ public class WeaponServlet extends HttpServlet {
     }
 
     private void sendResultStatus(boolean isSuccess, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json;charset=utf-8");
         PrintWriter writer = response.getWriter();
         if (isSuccess) writer.println("{\"status\":\"success\"}");
         else writer.println("{\"status\":\"false\"}");
