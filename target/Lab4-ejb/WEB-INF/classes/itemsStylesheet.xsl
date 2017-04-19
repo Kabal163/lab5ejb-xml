@@ -31,7 +31,8 @@
                 </table>
                 <xsl:if test="id != 2">
                     <div class="btn-group" role="group">
-                        <a href="{$serverUri}/views/editItems.jsp?searchObject=weapon&amp;id={id}" class="btn btn-secondary">Изменить
+                        <a href="{$serverUri}/views/editItems.jsp?searchObject=weapon&amp;id={id}"
+                           class="btn btn-secondary">Изменить
                         </a>
                         <button type="button" class="btn btn-danger" onclick="showAlertCommitDeletion()">Удалить</button>
                     </div>
@@ -43,9 +44,7 @@
                 </xsl:if>
             </div>
             <div class="alert alert-success text-center collapse alert-successfully-deleted" role="alert">
-                <p>Успешно удалено!
-                    <button type="button" class="btn btn-secondary" onclick="">Восстановить</button>
-                </p>
+                <p>Успешно удалено!</p>
             </div>
             <div class="alert alert-error alert-server-error collapse">
                 <h4>ERROR</h4>
@@ -99,9 +98,7 @@
                 </xsl:if>>
             </div>
             <div class="alert alert-success text-center collapse alert-successfully-deleted" role="alert">
-                <p>Успешно удалено!
-                    <button type="button" class="btn btn-secondary" onclick="">Восстановить</button>
-                </p>
+                <p>Успешно удалено!</p>
             </div>
             <div class="alert alert-error alert-server-error collapse">
                 <h4>ERROR</h4>
@@ -165,13 +162,81 @@
                 </div>
             </div>
             <div class="alert alert-success text-center collapse alert-successfully-deleted" role="alert">
-                <p>Успешно удалено!
-                    <button type="button" class="btn btn-secondary" onclick="">Восстановить</button>
-                </p>
+                <p>Успешно удалено!</p>
             </div>
             <div class="alert alert-error alert-server-error collapse">
                 <h4>ERROR</h4>
                 <p>Внутренняя ошибка сервера</p>
+            </div>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="/weapons">
+        <div class="container text-center show-item">
+            <div class="view-pane">
+                <table class="table table-inverse">
+                    <thead><tr><th>Название оружия</th><th>Уровень</th><th></th></tr></thead>
+                    <xsl:for-each select="item">
+                        <tr>
+                            <td><xsl:value-of select="name" /></td>
+                            <td><xsl:value-of select="level" /></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-info" onclick="findWeaponAsXml({id})">Посмотреть</button>
+                                    <xsl:if test="id != 2">
+                                        <button type="button" class="btn btn-outline-danger" onclick="removeWeapon({id})">Удалить</button>
+                                    </xsl:if>
+                                </div>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+            </div>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="/equipments">
+        <div class="container text-center show-item">
+            <div class="view-pane">
+                <table class="table table-inverse">
+                    <thead><tr><th>Название экипировки</th><th>Уровень</th><th></th></tr></thead>
+                    <xsl:for-each select="item">
+                        <tr>
+                            <td><xsl:value-of select="name" /></td>
+                            <td><xsl:value-of select="level" /></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-info" onclick="findEquipmentAsXml({id})">Посмотреть</button>
+                                    <xsl:if test="id != 7">
+                                        <button type="button" class="btn btn-outline-danger" onclick="removeEquipment({id})">Удалить</button>
+                                    </xsl:if>
+                                </div>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+            </div>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="/personages">
+        <div class="container text-center show-item">
+            <div class="view-pane">
+                <table class="table table-inverse">
+                    <thead><tr><th>Имя персонажа</th><th>Уровень</th><th></th></tr></thead>
+                    <xsl:for-each select="item">
+                        <tr>
+                            <td><xsl:value-of select="nickname" /></td>
+                            <td><xsl:value-of select="level" /></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-info" onclick="findPersonageAsXml({id})">Посмотреть</button>
+                                    <button type="button" class="btn btn-outline-danger" onclick="removePersonage({id})">Удалить</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
             </div>
         </div>
     </xsl:template>

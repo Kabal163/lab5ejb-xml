@@ -63,7 +63,7 @@
                 </tr>
             </table>
             <input name="weaponId" value="${weapon.id}" class="item-id"/>
-            <button type="button" class="btn btn-primary" onclick="submitWeaponChanges()">Изменить</button>
+            <button type="button" class="btn btn-outline-primary" onclick="submitWeaponChanges()">Изменить</button>
         </form>
     </div>
     <div class="alert alert-success text-center alert-successfully-updated collapse" role="alert">

@@ -37,7 +37,6 @@
             <button type="button" class="btn btn-danger" onclick="showAlertCommitDeletion()">Удалить</button>
         </div>
         <div class="alert alert-warning text-center alert-commit-deletion collapse" role="alert" id="alert-delete-equipment">
-            <button type="button" class="close" onclick="hideAlert('alert-delete-equipment')"><i class="glyphicon glyphicon-remove"></i></button>
             <strong>Удалить?</strong> Вы действительно хотите удалить данную экипировку?
             <hr>
             <button type="button" class="btn btn-danger" onclick="removeEquipment(${equipment.id})">Удалить</button>
@@ -45,9 +44,7 @@
         </c:if>
     </div>
     <div class="alert alert-success text-center collapse alert-successfully-deleted" role="alert">
-        <p>Успешно удалено!
-        <button type="button" class="btn btn-secondary" onclick="">Восстановить</button>
-        </p>
+        <p>Успешно удалено!</p>
     </div>
     <div class="alert alert-error alert-server-error collapse">
         <h4>ERROR</h4>

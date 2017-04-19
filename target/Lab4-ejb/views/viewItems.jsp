@@ -38,49 +38,101 @@
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" id="form-search-by-name">
-                <input type="text" class="form-control" name="weaponName" placeholder="Поиск по названию"/>
-            </form>
-            <form class="form-inline my-2 my-lg-0">
+            <div class="form-inline my-2 my-lg-0">
                 <c:choose>
+
                     <c:when test="${searchObject.equals(\"equipment\")}">
+                        <script>var urlHadler = "/Lab4-ejb/equipmentHandling"</script>
                         <jsp:useBean id="EquipmentBean" class="ru.wow.ejb.interfaces.impls.EquipmentBean" />
-                        <div class="input-group navbar-form">
-                            <select class="form-control mr-sm-2 select-item" name="equipmentId" id="select-equipment">
-                                <c:forEach var="equipment" items="${EquipmentBean.findAllEquipment()}">
-                                    <option value="${equipment.id}"><c:out value="${equipment.name}"/></option>
-                                </c:forEach>
-                            </select>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipment()">Найти экипировку</button>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipmentAsXml()">Найти экипировку(xml)           </button>
-                        </div>
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Найти по критерию<span class="sr-only">(current)</span></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <form class="dropdown-item form-inline my-2 my-lg-0">
+                                            <input type="text" class="form-control" name="equipmentName" placeholder="Поиск по названию"/>
+                                        </form>
+                                        <form class="dropdown-item form-inline my-2 my-lg-0">
+                                            <input type="text" class="form-control" name="equipmentLevel" placeholder="Поиск по уровню"/>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="input-group navbar-form">
+                                <select class="form-control mr-sm-2 select-item" name="equipmentId" id="select-equipment">
+                                    <c:forEach var="equipment" items="${EquipmentBean.findAllEquipment()}">
+                                        <option value="${equipment.id}"><c:out value="${equipment.name}"/></option>
+                                    </c:forEach>
+                                </select>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipment()">Найти экипировку</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipmentAsXml()">Найти экипировку(xml)</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findAllEquipmentAsXml()">Найти все(xml)</button>
+                                </div>
+                            </div>
                     </c:when>
+
                     <c:when test="${searchObject.equals(\"weapon\")}">
+                        <script>var urlHadler = "/Lab4-ejb/weaponHandling"</script>
                         <jsp:useBean id="WeaponBean" class="ru.wow.ejb.interfaces.impls.WeaponBean" />
-                        <div class="input-group navbar-form">
-                            <select class="form-control mr-sm-2 select-item" name="weaponId" id="select-weapon">
-                                <c:forEach var="weapon" items="${WeaponBean.findAllWeapon()}">
-                                    <option value="${weapon.id}"><c:out value="${weapon.name}"/></option>
-                                </c:forEach>
-                            </select>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findWeapon()">Найти оружие</button>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findWeaponAsXml()">Найти оружие(xml)</button>
-                        </div>
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Найти по критерию<span class="sr-only">(current)</span></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <form class="dropdown-item form-inline my-2 my-lg-0 form-search-by-name">
+                                            <input type="text" class="form-control" name="weaponName" placeholder="Поиск по названию"/>
+                                        </form>
+                                        <form class="dropdown-item form-inline my-2 my-lg-0 form-search-by-level">
+                                            <input type="text" class="form-control" name="weaponLevel" placeholder="Поиск по уровню"/>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="input-group navbar-form">
+                                <select class="form-control mr-sm-2 select-item" name="weaponId" id="select-weapon">
+                                    <c:forEach var="weapon" items="${WeaponBean.findAllWeapon()}">
+                                        <option value="${weapon.id}"><c:out value="${weapon.name}"/></option>
+                                    </c:forEach>
+                                </select>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findWeapon()">Найти оружие</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findWeaponAsXml()">Найти оружие(xml)</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findAllWeaponAsXml()">Найти все(xml)</button>
+                                </div>
+                            </div>
                     </c:when>
+
                     <c:when test="${searchObject.equals(\"personage\")}">
+                        <script>var urlHadler = "/Lab4-ejb/personageHandling"</script>
                         <jsp:useBean id="PersonageBean" class="ru.wow.ejb.interfaces.impls.PersonageBean" />
-                        <div class="input-group navbar-form">
-                            <select class="form-control mr-sm-2 select-item" name="personageId" id="select-personage">
-                                <c:forEach var="personage" items="${PersonageBean.findAllPersonage()}">
-                                    <option value="${personage.id}"><c:out value="${personage.nickname}"/></option>
-                                </c:forEach>
-                            </select>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonage()">Найти персонажа</button>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonageAsXml()">Найти персонажа(xml)</button>
-                        </div>
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Найти по критерию<span class="sr-only">(current)</span></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <form class="dropdown-item form-inline my-2 my-lg-0">
+                                            <input type="text" class="form-control" name="personageNickName" placeholder="Поиск по имени"/>
+                                        </form>
+                                        <form class="dropdown-item form-inline my-2 my-lg-0">
+                                            <input type="text" class="form-control" name="personageLevel" placeholder="Поиск по уровню"/>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="input-group navbar-form">
+                                <select class="form-control mr-sm-2 select-item" name="personageId" id="select-personage">
+                                    <c:forEach var="personage" items="${PersonageBean.findAllPersonage()}">
+                                        <option value="${personage.id}"><c:out value="${personage.nickname}"/></option>
+                                    </c:forEach>
+                                </select>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonage()">Найти персонажа</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonageAsXml()">Найти персонажа(xml)</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonageAsXml()">Найти всех(xml)</button>
+                                </div>
+                            </div>
                     </c:when>
+
                 </c:choose>
-            </form>
+            </div>
         </div>
     </nav>
     <div class="container view-holder">

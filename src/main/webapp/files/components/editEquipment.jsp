@@ -75,7 +75,7 @@
                 </tr>
             </table>
             <input name="equipmentId" value="${equipment.id}" class="item-id"/>
-            <button type="button" class="btn btn-primary" onclick="submitEquipmentChanges()">Изменить</button>
+            <button type="button" class="btn btn-outline-primary" onclick="submitEquipmentChanges()">Изменить</button>
         </form>
     </div>
     <div class="alert alert-success text-center alert-successfully-updated collapse" role="alert">

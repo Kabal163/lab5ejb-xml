@@ -40,9 +40,7 @@
         </c:if>
     </div>
     <div class="alert alert-success text-center collapse alert-successfully-deleted" role="alert">
-        <p>Успешно удалено!
-        <button type="button" class="btn btn-secondary" onclick="">Восстановить</button>
-        </p>
+        <p>Успешно удалено!</p>
     </div>
     <div class="alert alert-error alert-server-error collapse">
         <h4>ERROR</h4>

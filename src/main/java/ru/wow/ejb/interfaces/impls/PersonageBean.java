@@ -4,7 +4,6 @@ import ru.wow.cdiComponents.XmlTransformer;
 import ru.wow.dao.interfaces.impls.CrudDatabaseDao;
 import ru.wow.ejb.interfaces.PersonageHandler;
 import ru.wow.models.Personage;
-import ru.wow.models.Weapon;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -45,7 +44,7 @@ public class PersonageBean implements PersonageHandler{
     public String getPersonageAsXmlById(long id) {
         Personage personage = findPersonage(id);
         String personageXml = transformer.itemToXml(personage);
-        if(transformer.validateXml(personageXml, "personage.xsd")){
+        if(transformer.validateXml(personageXml, "xsd/personage.xsd")){
             return transformer.transformXmlToHtml(personageXml);
         } else {
             return null;

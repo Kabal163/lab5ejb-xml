@@ -101,16 +101,44 @@ function findPersonageAsXml(id) {
     });
 }
 
+<!-- All weapon search as XML-->
+
+function findAllWeaponAsXml() {
+    $.ajax({
+        url: "/Lab4-ejb/weaponHandling",
+        type: "get",
+        headers: {"searchFor":"allXml"},
+        dataType: "html",
+        success: function (response) {
+            $('.view-holder').html(response);
+        }
+    });
+}
+
+<!-- All equipment search as XML -->
+
+function findAllEquipmentAsXml() {
+    $.ajax({
+        url: "/Lab4-ejb/equipmentHandling",
+        type: "get",
+        headers: {"searchFor":"allXml"},
+        dataType: "html",
+        success: function (response) {
+            $('.view-holder').html(response);
+        }
+    });
+}
 
 <!-- Weapon search by name -->
 
 $(document).ready(setFuncOnSearchByName);
 
 function setFuncOnSearchByName() {
-    $('#form-search-by-name').submit( function (event) {
-        var weaponName = $('#form-search-by-name').serialize();
+    console.log(urlHadler);
+    $('.form-search-by-name').submit( function (event) {
+        var weaponName = $('.form-search-by-name').serialize();
         $.ajax({
-            url: "/Lab4-ejb/weaponHandling",
+            url: urlHadler,
             type: "get",
             headers: {"searchFor":"byName"},
             data: weaponName,

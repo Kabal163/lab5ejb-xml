@@ -3,7 +3,6 @@ package ru.wow.ejb.interfaces.impls;
 import ru.wow.cdiComponents.XmlTransformer;
 import ru.wow.dao.interfaces.impls.CrudDatabaseDao;
 import ru.wow.ejb.interfaces.WeaponHandler;
-import ru.wow.models.Personage;
 import ru.wow.models.Weapon;
 
 import javax.ejb.Stateless;
@@ -44,7 +43,7 @@ public class WeaponBean implements WeaponHandler{
     public String getWeaponAsHtmlById(long id) {
         Weapon weapon = findWeapon(id);
         String weaponXml = transformer.itemToXml(weapon);
-        if(transformer.validateXml(weaponXml, "weapon.xsd")){
+        if(transformer.validateXml(weaponXml, "xsd/weapon.xsd")){
             return transformer.transformXmlToHtml(weaponXml);
         } else {
             return null;
@@ -54,16 +53,28 @@ public class WeaponBean implements WeaponHandler{
     @Override
     public String getWeaponAsHtmlByName(String name) {
         Collection<Weapon> weapons = new CrudDatabaseDao<Weapon>(Weapon.class).getByName(name);
-        System.out.println("WEAPON CLASS: " + Weapon[].class);
-        System.out.println("WEAPON CLASS: " + Weapon.class);
-        String itemsXml = transformer.collectionToXml(weapons, "weapons", Weapon[].class);
-        System.out.println(itemsXml);
-        return null;
+        String weaponsXml = transformer.collectionToXml(weapons, "weapons", Weapon.class);
+        if (weapons.size() > 0 && transformer.validateXml(weaponsXml, "xsd/weaponCollection.xsd")) {
+            return transformer.transformXmlToHtml(weaponsXml);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public List<Weapon> findAllWeapon() {
         return new CrudDatabaseDao<Weapon>(Weapon.class).findAllItems();
+    }
+
+    @Override
+    public String getAllWeaponAsHtml() {
+        Collection<Weapon> allWeapon = new CrudDatabaseDao<Weapon>(Weapon.class).findAllItems();
+        String allWeaponXml = transformer.collectionToXml(allWeapon, "weapons", Weapon.class);
+        if(allWeapon.size() > 0 && transformer.validateXml(allWeaponXml, "xsd/weaponCollection.xsd")){
+            return transformer.transformXmlToHtml(allWeaponXml);
+        } else {
+            return null;
+        }
     }
 
     @Override

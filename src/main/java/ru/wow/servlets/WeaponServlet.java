@@ -52,8 +52,10 @@ public class WeaponServlet extends HttpServlet {
         switch (searchFor){
             case "single":
                 Weapon weapon = weaponBean.findWeapon(getWeaponId(request));
-                request.setAttribute("weapon", weapon);
-                request.getRequestDispatcher("/files/components/weaponTable.jsp").forward(request, response);
+                if(weapon != null){
+                    request.setAttribute("weapon", weapon);
+                    request.getRequestDispatcher("/files/components/weaponTable.jsp").forward(request, response);
+                } else sendResultStatus(false, response);
                 break;
             case "singleXml":
                 String weaponXml = weaponBean.getWeaponAsHtmlById(getWeaponId(request));
@@ -62,9 +64,13 @@ public class WeaponServlet extends HttpServlet {
                 break;
             case "byName":
                 String weaponsXml = weaponBean.getWeaponAsHtmlByName(getWeaponName(request));
+                if(weaponsXml != null) writer.println(weaponsXml);
+                else sendResultStatus(false, response);
                 break;
-            case "all":
-                List<Weapon> allWeapon = weaponBean.findAllWeapon();
+            case "allXml":
+                String allWeaponXml = weaponBean.getAllWeaponAsHtml();
+                if(allWeaponXml != null) writer.println(allWeaponXml);
+                else sendResultStatus(false, response);
                 break;
         }
     }

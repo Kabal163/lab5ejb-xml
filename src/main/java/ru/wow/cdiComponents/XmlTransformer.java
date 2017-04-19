@@ -27,6 +27,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.Collection;
 
 public class XmlTransformer {
@@ -49,21 +50,20 @@ public class XmlTransformer {
         return itemXml;
     }
 
-    public <T> String collectionToXml(Collection<T> items, String qName, Class<T[]> genericType){
+    public <T> String collectionToXml(Collection<T> items, String qName, Class<T> elementClass){
         String itemsXml = null;
         StringWriter writer = new StringWriter();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(getUnproxyModel(items).getClass());
-            JAXBElement<T[]> root = new JAXBElement<T[]>(new QName(qName), genericType, items.toArray(genericType.newInstance()));
+            T[] array = (T[]) Array.newInstance(elementClass, items.size());
+            items.toArray(array);
+            JAXBContext jaxbContext = JAXBContext.newInstance(array.getClass());
+            JAXBElement<T[]> root = new JAXBElement<T[]>(new QName(qName), (Class<T[]>) array.getClass(), array);
             Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(root, writer);
             itemsXml = writer.toString();
         } catch (JAXBException e) {
             System.out.println("Collection marshalling exception");
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
             e.printStackTrace();
         }
         return itemsXml;

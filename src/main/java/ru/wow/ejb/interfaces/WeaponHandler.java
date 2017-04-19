@@ -24,4 +24,6 @@ public interface WeaponHandler {
     String getWeaponAsHtmlByName(String name);
 
     List<Weapon> findAllWeapon();
+
+    String getAllWeaponAsHtml();
 }

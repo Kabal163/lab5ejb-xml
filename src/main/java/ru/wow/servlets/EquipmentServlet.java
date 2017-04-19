@@ -51,29 +51,39 @@ public class EquipmentServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=windows-1251");
         String searchFor = request.getHeader("searchFor");
-        int equipmentId = Integer.parseInt(request.getParameter("equipmentId"));
         PrintWriter writer = response.getWriter();
         switch (searchFor){
             case "single":
-                Equipment equipment = equipmentBean.findEquipment(equipmentId);
+                Equipment equipment = equipmentBean.findEquipment(getEquipmentId(request));
                 request.setAttribute("equipment", equipment);
                 request.getRequestDispatcher("/files/components/equipmentTable.jsp").forward(request, response);
                 break;
             case "singleXml":
-                String equipmentXml = equipmentBean.getEquipmentAsHtmlById(equipmentId);
+                String equipmentXml = equipmentBean.getEquipmentAsHtmlById(getEquipmentId(request));
                 if(equipmentXml != null) writer.println(equipmentXml);
                 else sendResultStatus(false, response);
                 break;
             case "byName":
-
+                //String equipmentsXml =
                 break;
-            case "all":
-                List<Equipment> allEquipment = equipmentBean.findAllEquipment();
+            case "allXml":
+                String allEquipmentXml = equipmentBean.getAllEquipmentAsHtml();
+                System.out.println(allEquipmentXml);
+                if(allEquipmentXml != null) writer.println(allEquipmentXml);
+                else sendResultStatus(false, response);
                 break;
         }
     }
 
-    private Equipment getEquipment(HttpServletRequest request) throws UnsupportedEncodingException, UnsupportedEncodingException {
+    private int getEquipmentId(HttpServletRequest request){
+        return Integer.parseInt(request.getParameter("equipmentId"));
+    }
+
+    private String getEquipmentName(HttpServletRequest request){
+        return request.getParameter("equipmentName");
+    }
+
+    private Equipment getEquipment(HttpServletRequest request) throws UnsupportedEncodingException {
         Equipment equipment = new Equipment();
         String id = request.getParameter("equipmentId");
         if(id != null){

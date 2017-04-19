@@ -95,7 +95,7 @@
                 </tr>
             </table>
             <input name="personageId" value="${personage.id}" class="item-id"/>
-            <button type="button" class="btn btn-primary" onclick="submitPersonageChanges()">Изменить</button>
+            <button type="button" class="btn btn-outline-primary" onclick="submitPersonageChanges()">Изменить</button>
         </form>
     </div>
     <div class="alert alert-success text-center alert-successfully-updated collapse" role="alert">

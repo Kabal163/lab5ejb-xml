@@ -4,11 +4,11 @@ import ru.wow.cdiComponents.XmlTransformer;
 import ru.wow.dao.interfaces.impls.CrudDatabaseDao;
 import ru.wow.ejb.interfaces.EquipmentHandler;
 import ru.wow.models.Equipment;
-import ru.wow.models.Personage;
 
 import javax.ejb.*;
 import javax.inject.Inject;
 import java.io.*;
+import java.util.Collection;
 import java.util.List;
 
 @Stateless
@@ -43,7 +43,7 @@ public class EquipmentBean implements EquipmentHandler, Serializable{
     public String getEquipmentAsHtmlById(long id) {
         Equipment equipment = findEquipment(id);
         String equipmentXml = transformer.itemToXml(equipment);
-        if(transformer.validateXml(equipmentXml, "equipment.xsd")){
+        if(transformer.validateXml(equipmentXml, "xsd/equipment.xsd")){
             return transformer.transformXmlToHtml(equipmentXml);
         } else {
             return null;
@@ -53,6 +53,17 @@ public class EquipmentBean implements EquipmentHandler, Serializable{
     @Override
     public List<Equipment> findAllEquipment() {
         return new CrudDatabaseDao<Equipment>(Equipment.class).findAllItems();
+    }
+
+    @Override
+    public String getAllEquipmentAsHtml() {
+        Collection<Equipment> allEquipment = new CrudDatabaseDao<Equipment>(Equipment.class).findAllItems();
+        String allEquipmentXml = transformer.collectionToXml(allEquipment, "equipments", Equipment.class);
+        if(allEquipment.size() > 0 && transformer.validateXml(allEquipmentXml, "xsd/equipmentCollection.xsd")){
+            return transformer.transformXmlToHtml(allEquipmentXml);
+        } else {
+            return null;
+        }
     }
 
     @Override
