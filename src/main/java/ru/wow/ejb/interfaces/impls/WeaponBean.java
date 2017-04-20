@@ -24,11 +24,6 @@ public class WeaponBean implements WeaponHandler{
     }
 
     @Override
-    public boolean removeWeapon(Weapon weapon) {
-        return false;
-    }
-
-    @Override
     public boolean updateWeapon(Weapon weapon) {
         countPrice(weapon);
         return new CrudDatabaseDao<Weapon>().updateItem(weapon);
@@ -53,12 +48,13 @@ public class WeaponBean implements WeaponHandler{
     @Override
     public String getWeaponAsHtmlByName(String name) {
         Collection<Weapon> weapons = new CrudDatabaseDao<Weapon>(Weapon.class).getByName(name);
-        String weaponsXml = transformer.collectionToXml(weapons, "weapons", Weapon.class);
-        if (weapons.size() > 0 && transformer.validateXml(weaponsXml, "xsd/weaponCollection.xsd")) {
-            return transformer.transformXmlToHtml(weaponsXml);
-        } else {
-            return null;
-        }
+        return validateAndTransform(weapons);
+    }
+
+    @Override
+    public String getWeaponAsHtmlByLevel(int level) {
+        Collection<Weapon> weapons = new CrudDatabaseDao<Weapon>(Weapon.class).getByLevel(level);
+        return validateAndTransform(weapons);
     }
 
     @Override
@@ -69,18 +65,22 @@ public class WeaponBean implements WeaponHandler{
     @Override
     public String getAllWeaponAsHtml() {
         Collection<Weapon> allWeapon = new CrudDatabaseDao<Weapon>(Weapon.class).findAllItems();
-        String allWeaponXml = transformer.collectionToXml(allWeapon, "weapons", Weapon.class);
-        if(allWeapon.size() > 0 && transformer.validateXml(allWeaponXml, "xsd/weaponCollection.xsd")){
-            return transformer.transformXmlToHtml(allWeaponXml);
-        } else {
-            return null;
-        }
+        return validateAndTransform(allWeapon);
     }
 
     @Override
     public boolean removeById(long id){
         Serializable serializedId = new Long(id);
         return new CrudDatabaseDao<Weapon>(Weapon.class).deleteById(serializedId);
+    }
+
+    private String validateAndTransform(Collection<Weapon> weapons){
+        String weaponsXml = transformer.collectionToXml(weapons, "weapons", Weapon.class);
+        if(weapons.size() > 0 && transformer.validateXml(weaponsXml, "xsd/weaponCollection.xsd")){
+            return transformer.transformXmlToHtml(weaponsXml);
+        } else {
+            return null;
+        }
     }
 
     private void countPrice(Weapon weapon){

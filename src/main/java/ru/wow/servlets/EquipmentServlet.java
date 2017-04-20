@@ -64,7 +64,14 @@ public class EquipmentServlet extends HttpServlet {
                 else sendResultStatus(false, response);
                 break;
             case "byName":
-                //String equipmentsXml =
+                String equipmentsByName = equipmentBean.getEquipmentAsHtmlByName(getEquipmentName(request));
+                if(equipmentsByName != null) writer.println(equipmentsByName);
+                else sendResultStatus(false, response);
+                break;
+            case "byLevel":
+                String equipmentsByLevel = equipmentBean.getEquipmentAsHtmlByLevel(getEquipmentLevel(request));
+                if(equipmentsByLevel != null) writer.println(equipmentsByLevel);
+                else sendResultStatus(false, response);
                 break;
             case "allXml":
                 String allEquipmentXml = equipmentBean.getAllEquipmentAsHtml();
@@ -75,12 +82,16 @@ public class EquipmentServlet extends HttpServlet {
         }
     }
 
-    private int getEquipmentId(HttpServletRequest request){
-        return Integer.parseInt(request.getParameter("equipmentId"));
+    private long getEquipmentId(HttpServletRequest request){
+        return Long.parseLong(request.getParameter("equipmentId"));
     }
 
     private String getEquipmentName(HttpServletRequest request){
         return request.getParameter("equipmentName");
+    }
+
+    private int getEquipmentLevel(HttpServletRequest request){
+        return Integer.parseInt(request.getParameter("equipmentLevel"));
     }
 
     private Equipment getEquipment(HttpServletRequest request) throws UnsupportedEncodingException {

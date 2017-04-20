@@ -101,11 +101,10 @@ function findPersonageAsXml(id) {
     });
 }
 
-<!-- All weapon search as XML-->
-
-function findAllWeaponAsXml() {
+<!-- All items search as XML-->
+function findAllItemsAsXml() {
     $.ajax({
-        url: "/Lab4-ejb/weaponHandling",
+        url: urlHadler,
         type: "get",
         headers: {"searchFor":"allXml"},
         dataType: "html",
@@ -115,33 +114,19 @@ function findAllWeaponAsXml() {
     });
 }
 
-<!-- All equipment search as XML -->
-
-function findAllEquipmentAsXml() {
-    $.ajax({
-        url: "/Lab4-ejb/equipmentHandling",
-        type: "get",
-        headers: {"searchFor":"allXml"},
-        dataType: "html",
-        success: function (response) {
-            $('.view-holder').html(response);
-        }
-    });
-}
-
-<!-- Weapon search by name -->
-
+<!-- Weapon search by name and level -->
 $(document).ready(setFuncOnSearchByName);
+$(document).ready(setFuncOnSearchByLevel);
 
 function setFuncOnSearchByName() {
     console.log(urlHadler);
     $('.form-search-by-name').submit( function (event) {
-        var weaponName = $('.form-search-by-name').serialize();
+        var itemName = $('.form-search-by-name').serialize();
         $.ajax({
             url: urlHadler,
             type: "get",
             headers: {"searchFor":"byName"},
-            data: weaponName,
+            data: itemName,
             dataType: "html",
             success: function (response) {
                 $('.view-holder').html(response);
@@ -151,4 +136,20 @@ function setFuncOnSearchByName() {
     });
 }
 
-
+function setFuncOnSearchByLevel() {
+    console.log(urlHadler);
+    $('.form-search-by-level').submit(function (event){
+        var itemLevel = $('.form-search-by-level').serialize();
+        $.ajax({
+            url: urlHadler,
+            type: "get",
+            headers: {"searchFor":"byLevel"},
+            data: itemLevel,
+            dataType: "html",
+            success: function (response) {
+                $('.view-holder').html(response);
+            }
+        });
+        event.preventDefault();
+    });
+}

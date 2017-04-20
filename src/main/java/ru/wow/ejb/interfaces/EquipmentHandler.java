@@ -12,8 +12,6 @@ public interface EquipmentHandler {
 
     boolean createEquipment(Equipment equipment);
 
-    boolean removeEquipment(Equipment equipment);
-
     boolean removeById(long id);
 
     boolean updateEquipment(Equipment equipment);
@@ -21,6 +19,10 @@ public interface EquipmentHandler {
     Equipment findEquipment(long id);
 
     String getEquipmentAsHtmlById(long id);
+
+    String getEquipmentAsHtmlByName(String name);
+
+    String getEquipmentAsHtmlByLevel(int level);
 
     List<Equipment> findAllEquipment();
 

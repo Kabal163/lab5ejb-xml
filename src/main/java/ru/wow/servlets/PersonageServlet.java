@@ -60,24 +60,46 @@ public class PersonageServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=windows-1251");
         String searchFor = request.getHeader("searchFor");
-        long personageId = Long.parseLong(request.getParameter("personageId"));
         PrintWriter writer = response.getWriter();
         switch (searchFor){
             case "single":
-                Personage personage = personageBean.findPersonage(personageId);
+                Personage personage = personageBean.findPersonage(getPersonageId(request));
                 request.setAttribute("personage", personage);
                 request.getRequestDispatcher("/files/components/personageTable.jsp").forward(request, response);
                 break;
             case "singleXml":
-                String personageXml = personageBean.getPersonageAsXmlById(personageId);
+                String personageXml = personageBean.getPersonageAsXmlById(getPersonageId(request));
                 if(personageXml != null) writer.println(personageXml);
                 else sendResultStatus(false, response);
                 break;
             case "byName":
-
-            case "all":
+                String personagesByName = personageBean.getPersonageAsHtmlByNickname(getPersonageNickname(request));
+                if(personagesByName != null) writer.println(personagesByName);
+                else sendResultStatus(false, response);
+                break;
+            case "byLevel":
+                String personagesByLevel = personageBean.getPersonageAsHtmlByLevel(getPersonageLevel(request));
+                if(personagesByLevel != null) writer.println(personagesByLevel);
+                else sendResultStatus(false, response);
+                break;
+            case "allXml":
+                String allPersonage = personageBean.getAllPersonagesAsHtml();
+                if(allPersonage != null) writer.println(allPersonage);
+                else sendResultStatus(false, response);
                 break;
         }
+    }
+
+    private String getPersonageNickname(HttpServletRequest request){
+        return request.getParameter("personageNickname");
+    }
+
+    private long getPersonageId(HttpServletRequest request){
+        return Long.parseLong(request.getParameter("personageId"));
+    }
+
+    private int getPersonageLevel(HttpServletRequest request){
+        return Integer.parseInt(request.getParameter("personageLevel"));
     }
 
     private Personage getPersonage(HttpServletRequest request) throws UnsupportedEncodingException {

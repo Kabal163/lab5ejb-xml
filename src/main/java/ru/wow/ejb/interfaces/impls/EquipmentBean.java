@@ -24,11 +24,6 @@ public class EquipmentBean implements EquipmentHandler, Serializable{
     }
 
     @Override
-    public boolean removeEquipment(Equipment equipment) {
-        return false;
-    }
-
-    @Override
     public boolean updateEquipment(Equipment equipment) {
         countPrice(equipment);
         return new CrudDatabaseDao<Equipment>().updateItem(equipment);
@@ -51,6 +46,18 @@ public class EquipmentBean implements EquipmentHandler, Serializable{
     }
 
     @Override
+    public String getEquipmentAsHtmlByName(String name) {
+        Collection<Equipment> equipments = new CrudDatabaseDao<Equipment>(Equipment.class).getByName(name);
+        return validateAndTransform(equipments);
+    }
+
+    @Override
+    public String getEquipmentAsHtmlByLevel(int level) {
+        Collection<Equipment> equipments = new CrudDatabaseDao<Equipment>(Equipment.class).getByLevel(level);
+        return validateAndTransform(equipments);
+    }
+
+    @Override
     public List<Equipment> findAllEquipment() {
         return new CrudDatabaseDao<Equipment>(Equipment.class).findAllItems();
     }
@@ -58,18 +65,22 @@ public class EquipmentBean implements EquipmentHandler, Serializable{
     @Override
     public String getAllEquipmentAsHtml() {
         Collection<Equipment> allEquipment = new CrudDatabaseDao<Equipment>(Equipment.class).findAllItems();
-        String allEquipmentXml = transformer.collectionToXml(allEquipment, "equipments", Equipment.class);
-        if(allEquipment.size() > 0 && transformer.validateXml(allEquipmentXml, "xsd/equipmentCollection.xsd")){
-            return transformer.transformXmlToHtml(allEquipmentXml);
-        } else {
-            return null;
-        }
+        return validateAndTransform(allEquipment);
     }
 
     @Override
     public boolean removeById(long id){
         Serializable serializedId = new Long(id);
         return new CrudDatabaseDao<Equipment>(Equipment.class).deleteById(serializedId);
+    }
+
+    private String validateAndTransform(Collection<Equipment> equipments) {
+        String allEquipmentXml = transformer.collectionToXml(equipments, "equipments", Equipment.class);
+        if(equipments.size() > 0 && transformer.validateXml(allEquipmentXml, "xsd/equipmentCollection.xsd")){
+            return transformer.transformXmlToHtml(allEquipmentXml);
+        } else {
+            return null;
+        }
     }
 
     private void countPrice(Equipment equipment){

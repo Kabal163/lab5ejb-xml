@@ -63,8 +63,13 @@ public class WeaponServlet extends HttpServlet {
                 else sendResultStatus(false, response);
                 break;
             case "byName":
-                String weaponsXml = weaponBean.getWeaponAsHtmlByName(getWeaponName(request));
-                if(weaponsXml != null) writer.println(weaponsXml);
+                String weaponsByName = weaponBean.getWeaponAsHtmlByName(getWeaponName(request));
+                if(weaponsByName != null) writer.println(weaponsByName);
+                else sendResultStatus(false, response);
+                break;
+            case "byLevel":
+                String weaponsByLevel = weaponBean.getWeaponAsHtmlByLevel(getWeaponLevel(request));
+                if(weaponsByLevel != null) writer.println(weaponsByLevel);
                 else sendResultStatus(false, response);
                 break;
             case "allXml":
@@ -75,12 +80,16 @@ public class WeaponServlet extends HttpServlet {
         }
     }
 
-    private int getWeaponId(HttpServletRequest request){
-        return Integer.parseInt(request.getParameter("weaponId"));
+    private long getWeaponId(HttpServletRequest request){
+        return Long.parseLong(request.getParameter("weaponId"));
     }
 
     private String getWeaponName(HttpServletRequest request){
         return request.getParameter("weaponName");
+    }
+
+    private int getWeaponLevel(HttpServletRequest request) {
+        return Integer.parseInt(request.getParameter("weaponLevel"));
     }
 
     private Weapon getWeapon(HttpServletRequest request) throws UnsupportedEncodingException {

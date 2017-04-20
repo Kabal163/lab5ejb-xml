@@ -8,6 +8,7 @@ import ru.wow.models.Personage;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 @Stateless
@@ -20,11 +21,6 @@ public class PersonageBean implements PersonageHandler{
     public boolean createPersonage(Personage personage) {
         countPesonageStatistics(personage);
         return new CrudDatabaseDao<Personage>().createItem(personage);
-    }
-
-    @Override
-    public boolean removePersonage(Personage personage) {
-        return false;
     }
 
     @Override
@@ -52,14 +48,41 @@ public class PersonageBean implements PersonageHandler{
     }
 
     @Override
+    public String getPersonageAsHtmlByNickname(String nickname) {
+        Collection<Personage> personages = new CrudDatabaseDao<Personage>(Personage.class).getByName(nickname);
+        return validateAndTransform(personages);
+    }
+
+    @Override
+    public String getPersonageAsHtmlByLevel(int level) {
+        Collection<Personage> personages = new CrudDatabaseDao<Personage>(Personage.class).getByLevel(level);
+        return validateAndTransform(personages);
+    }
+
+    @Override
     public List<Personage> findAllPersonage() {
         return new CrudDatabaseDao<Personage>(Personage.class).findAllItems();
+    }
+
+    @Override
+    public String getAllPersonagesAsHtml() {
+        Collection<Personage> personages = new CrudDatabaseDao<Personage>(Personage.class).findAllItems();
+        return validateAndTransform(personages);
     }
 
     @Override
     public boolean removeById(long id){
         Serializable serializedId = new Long(id);
         return new CrudDatabaseDao<Personage>(Personage.class).deleteById(serializedId);
+    }
+
+    private String validateAndTransform(Collection<Personage> personages){
+        String personagesXml = transformer.collectionToXml(personages, "personages", Personage.class);
+        if(personages.size() > 0 && transformer.validateXml(personagesXml, "xsd/personageCollection.xsd")){
+            return transformer.transformXmlToHtml(personagesXml);
+        } else {
+            return null;
+        }
     }
 
     private void countPesonageStatistics(Personage personage){

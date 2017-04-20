@@ -20,6 +20,8 @@ public interface CrudDao<T> {
 
     T getById(long id);
 
+    Collection<T> getByLevel(int level);
+
     Collection<T> getByName(String name);
 
     List<T> findAllItems();

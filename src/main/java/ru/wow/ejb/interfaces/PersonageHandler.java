@@ -10,8 +10,6 @@ public interface PersonageHandler {
 
     boolean createPersonage(Personage personage);
 
-    boolean removePersonage(Personage personage);
-
     boolean removeById(long id);
 
     boolean updatePersonage(Personage personage);
@@ -20,5 +18,11 @@ public interface PersonageHandler {
 
     String getPersonageAsXmlById(long id);
 
+    String getPersonageAsHtmlByNickname(String nickname);
+
+    String getPersonageAsHtmlByLevel(int level);
+
     List<Personage> findAllPersonage();
+
+    String getAllPersonagesAsHtml();
 }

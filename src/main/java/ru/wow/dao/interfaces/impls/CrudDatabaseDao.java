@@ -76,10 +76,24 @@ public class CrudDatabaseDao<T> implements CrudDao<T>{
     }
 
     @Override
+    public Collection<T> getByLevel(int level) {
+        Collection<T> items = null;
+        String byLevel = "from " + genericType.getName() + " I where I.level = :level";
+        try (Session session = HibernateUtil.getSession()){
+            session.beginTransaction();
+            Query query = session.createQuery(byLevel);
+            query.setParameter("level", level);
+            items = query.list();
+            session.getTransaction().commit();
+        }
+        return items;
+    }
+
+    @Override
     public Collection<T> getByName(String name) {
         Collection<T> items = null;
         String byName = "from " + genericType.getName() + " I where I.name = :name";
-        String byNickName = "from " + genericType.getName() + " I where I.nickName = :nickName";
+        String byNickName = "from " + genericType.getName() + " I where I.nickname = :name";
         try (Session session = HibernateUtil.getSession()){
             session.beginTransaction();
             Query query = null;

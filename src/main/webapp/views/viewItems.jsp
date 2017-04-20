@@ -48,10 +48,10 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Найти по критерию<span class="sr-only">(current)</span></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <form class="dropdown-item form-inline my-2 my-lg-0">
+                                        <form class="dropdown-item form-inline my-2 my-lg-0 form-search-by-name">
                                             <input type="text" class="form-control" name="equipmentName" placeholder="Поиск по названию"/>
                                         </form>
-                                        <form class="dropdown-item form-inline my-2 my-lg-0">
+                                        <form class="dropdown-item form-inline my-2 my-lg-0 form-search-by-level">
                                             <input type="text" class="form-control" name="equipmentLevel" placeholder="Поиск по уровню"/>
                                         </form>
                                     </div>
@@ -66,7 +66,7 @@
                                 <div class="btn-group">
                                     <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipment()">Найти экипировку</button>
                                     <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findEquipmentAsXml()">Найти экипировку(xml)</button>
-                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findAllEquipmentAsXml()">Найти все(xml)</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findAllItemsAsXml()">Найти все(xml)</button>
                                 </div>
                             </div>
                     </c:when>
@@ -96,7 +96,7 @@
                                 <div class="btn-group">
                                     <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findWeapon()">Найти оружие</button>
                                     <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findWeaponAsXml()">Найти оружие(xml)</button>
-                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findAllWeaponAsXml()">Найти все(xml)</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findAllItemsAsXml()">Найти все(xml)</button>
                                 </div>
                             </div>
                     </c:when>
@@ -108,10 +108,10 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Найти по критерию<span class="sr-only">(current)</span></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <form class="dropdown-item form-inline my-2 my-lg-0">
-                                            <input type="text" class="form-control" name="personageNickName" placeholder="Поиск по имени"/>
+                                        <form class="dropdown-item form-inline my-2 my-lg-0 form-search-by-name">
+                                            <input type="text" class="form-control" name="personageNickname" placeholder="Поиск по имени"/>
                                         </form>
-                                        <form class="dropdown-item form-inline my-2 my-lg-0">
+                                        <form class="dropdown-item form-inline my-2 my-lg-0 form-search-by-level">
                                             <input type="text" class="form-control" name="personageLevel" placeholder="Поиск по уровню"/>
                                         </form>
                                     </div>
@@ -126,7 +126,7 @@
                                 <div class="btn-group">
                                     <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonage()">Найти персонажа</button>
                                     <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonageAsXml()">Найти персонажа(xml)</button>
-                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findPersonageAsXml()">Найти всех(xml)</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="findAllItemsAsXml()">Найти всех(xml)</button>
                                 </div>
                             </div>
                     </c:when>

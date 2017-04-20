@@ -11,8 +11,6 @@ public interface WeaponHandler {
 
     boolean createWeapon(Weapon weapon);
 
-    boolean removeWeapon(Weapon weapon);
-
     boolean removeById(long id);
 
     boolean updateWeapon(Weapon weapon);
@@ -22,6 +20,8 @@ public interface WeaponHandler {
     String getWeaponAsHtmlById(long id);
 
     String getWeaponAsHtmlByName(String name);
+
+    String getWeaponAsHtmlByLevel(int level);
 
     List<Weapon> findAllWeapon();
 
